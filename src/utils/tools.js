@@ -21,9 +21,7 @@ const showTip = function (msg, time) {
 
 // 设置初始参数 ****************
 axios.defaults.timeout = 10000;
-//axios.defaults.baseURL = 'http://192.168.1.66:8082/';
-axios.defaults.baseURL = 'https://api.niyouxi77.com';
-//axios.defaults.baseURL = 'http://47.93.229.67:1521/';
+axios.defaults.baseURL = 'http://api.#####.com';
 axios.defaults.withCredentials = true;
  // axios.defaults.baseURL = '/api_base';
 function get(url, params = {}) {
@@ -59,21 +57,15 @@ function post(url, data = {}) {
     axios.post(url, data, head)
       .then(response => {
         const resData = response.data;
-
         if(resData.code == 200){
           resolve(resData.data);
-
         }else if(resData.code == 302){
-          //showTip('请重新登录');
-         /*this.$router.push({
-            path:'/login'
-          })*/
+         showTip('请重新登录');  
         }else if(resData.code == 303){
-          //showTip('账号异常')
-
+          showTip('账号异常')
         }
       }, reject => {
-       // showTip('网络错误,请稍后重试')
+        showTip('网络错误,请稍后重试')
       })
   })
 }
@@ -103,8 +95,8 @@ function setAutoSize() {
 
 
 
-function getTimestamp(old_time) { //数据时间戳 int
-  let newDate = new Date();
+function getTimestamp(dateTimeStamp) { //数据时间戳 int
+ /* let newDate = new Date();
   let timestamp = Date.parse(new Date());
   old_time = parseInt(old_time / 1000);
   timestamp = timestamp / 1000;
@@ -137,9 +129,45 @@ function getTimestamp(old_time) { //数据时间戳 int
     htmlTime =  htmlTime + ' s' + ' 前'
   }
   return htmlTime;
+}*/
+ let minute = 1000 * 60; //把分，时，天，周，半个月，一个月用毫秒表示
+   let hour = minute * 60;
+   let day = hour * 24;
+   let week = day * 7;
+   //let halfamonth = day * 15;
+   let month = day * 30;
+   let now = new Date().getTime(); //获取当前时间毫秒 console.log(now)
+   let diffValue = now - dateTimeStamp;//时间差
+   if(diffValue < 0){ return "刚刚"; }
+   let minC = diffValue/minute;//计算时间差的分，时，天，周，月
+   let hourC = diffValue/hour;
+   let dayC = diffValue/day;
+   let weekC = diffValue/week;
+   let monthC = diffValue/month;
+   if(monthC >= 1 && monthC <= 3){
+     return  " " + parseInt(monthC) + "月前"
+   }else if(weekC >= 1 && weekC <= 3){
+     return  " " + parseInt(weekC) + "周前"
+   }else if(dayC >= 1 && dayC <= 6){
+     return " " + parseInt(dayC) + "天前"
+   }else if(hourC >= 1 && hourC <= 23){
+     return " " + parseInt(hourC) + "小时前"
+   }else if(minC >= 1 && minC <= 59){
+     return " " + parseInt(minC) + "分钟前"
+   }else if(diffValue >= 0 && diffValue <= minute){
+     return  "刚刚"
+   }else {
+     let datetime = new Date();
+     datetime.setTime(dateTimeStamp);
+     let Nyear = datetime.getFullYear();
+     let Nmonth = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+     let Ndate = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+     let Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
+     let Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+     let Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+     return  Nyear + "-" + Nmonth + "-" + Ndate+' '+Nhour + ":" +Nminute + ":" + Nsecond
+   }
 }
-
-
 
 
 export default {
