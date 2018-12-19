@@ -6,7 +6,7 @@
 
 const state = {
   routerPath:'/',
-  baseUrl:'https://file.niyouxi77.com/',
+  baseUrl:'https://3333333.com/',
   shareShade:false,
   token:null,
   my_userId:null,
@@ -17,22 +17,10 @@ const state = {
 const mutations = {
   SHOWTABBAR(state,routerPath) {
     state.routerPath = routerPath;
-    /*if (routerPath == '/' || routerPath == '/story' || routerPath == '/dream' || routerPath == '/impromptu' || routerPath == '/dub' || routerPath == '/login' || routerPath == '/forgotPwd' || routerPath == '/demo' || routerPath == '/report' || routerPath == '/choiceness' || routerPath == '/deduce_det' || routerPath == '/activityDetails' || routerPath == '/groupDet' || routerPath == '/storyDetails') {
-      state.showTabbar = true;
-      state.showHeader = false;
-      if (routerPath == '/login' || routerPath == '/forgotPwd' || routerPath == '/demo' || routerPath == '/report') {
-        state.showTabbar = false;
-      }
-    } else if(routerPath == '/editdata' || routerPath == '/activityDetails' || routerPath == '/person') {
-      state.showTabbar = false;
-      state.showHeader = false;
-    }*/
-
 
   },
   /*设置state*/
   SETSTATE(state,payload){
-    //console.log(payload);
     state[payload.type] = payload.val;
   }
 }
